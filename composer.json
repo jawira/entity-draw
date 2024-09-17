@@ -1,0 +1,22 @@
+{
+  "name": "jawira/entity-draw",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Jawira Portugal"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "doctrine/orm": "^2.10"
+  },
+  "require-dev": {
+    "jawira/skeleton": "^2.24"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jawira\\EntityDraw\\": "src/"
+    }
+  }
+}
