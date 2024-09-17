@@ -3,9 +3,7 @@
 namespace Jawira\EntityDraw\Uml;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use http\Header;
 use Jawira\EntityDraw\Services\Toolbox;
-use PhpParser\Builder\Class_;
 
 /**
  * This represents a UML class, but since "class" is a reserved word in PHP it
