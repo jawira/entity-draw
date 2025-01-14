@@ -3,6 +3,7 @@
 namespace Jawira\EntityDraw;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Jawira\EntityDraw\Diagram\Midi;
 use Jawira\EntityDraw\Diagram\Mini;
 
 class EntityDraw
@@ -13,7 +14,7 @@ class EntityDraw
 
   public function generateDiagram(string $size, string $theme, array $exclusions): string
   {
-    $diagram =  new Mini($this->entityManager, $exclusions);
+    $diagram =  new Midi($this->entityManager, $exclusions);
 
     return $diagram->getPlantUmlCode();
   }
