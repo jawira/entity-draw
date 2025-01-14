@@ -5,7 +5,6 @@ namespace Jawira\EntityDraw\Diagram;
 use Doctrine\ORM\EntityManagerInterface;
 use Jawira\EntityDraw\Services\PlantUmlWritter;
 use Jawira\EntityDraw\Services\Toolbox;
-use function array_reduce;
 
 class Midi implements DiagramInterface
 {

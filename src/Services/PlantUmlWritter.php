@@ -4,7 +4,6 @@ namespace Jawira\EntityDraw\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Jawira\EntityDraw\Uml\ComponentInterface;
 use Jawira\EntityDraw\Uml\Entity;
 use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Inheritance;
@@ -102,5 +101,3 @@ class PlantUmlWritter
     return $relations;
   }
 }
-
-

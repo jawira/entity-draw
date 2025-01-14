@@ -2,10 +2,6 @@
 
 namespace Jawira\EntityDraw\Uml;
 
-use ReflectionIntersectionType;
-use ReflectionNamedType;
-use ReflectionUnionType;
-use function is_null;
 use function strval;
 
 class Property implements ComponentInterface

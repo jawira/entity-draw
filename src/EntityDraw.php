@@ -4,7 +4,6 @@ namespace Jawira\EntityDraw;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Jawira\EntityDraw\Diagram\Midi;
-use Jawira\EntityDraw\Diagram\Mini;
 
 class EntityDraw
 {
