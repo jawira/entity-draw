@@ -2,10 +2,14 @@
 
 namespace Jawira\EntityDraw\Diagram;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 /**
  * @internal
  */
 interface DiagramInterface
 {
-  public function getPlantUmlCode(): string;
+  public function __construct(EntityManagerInterface $entityManager);
+
+  public function getPlantUmlCode(string $theme, array $exclusions): string;
 }

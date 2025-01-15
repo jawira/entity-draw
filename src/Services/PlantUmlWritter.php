@@ -11,7 +11,9 @@ use Jawira\EntityDraw\Uml\Relation;
 
 class PlantUmlWritter
 {
-  public function __construct(private EntityManagerInterface $entityManager)
+  private readonly Toolbox $toolbox;
+
+  public function __construct(private readonly EntityManagerInterface $entityManager)
   {
     $this->toolbox = new Toolbox();
   }
@@ -20,14 +22,17 @@ class PlantUmlWritter
    * @see https://forum.plantuml.net/1139/please-support-php-namespace-separator
    * @return \Jawira\EntityDraw\Uml\Raw[]
    */
-  public function generateHeader(): array
+  public function generateHeader(string $theme): array
   {
     return [
       new Raw('@startuml'),
       new Raw('set separator \\ '),
       new Raw('!pragma useIntermediatePackages false'),
       new Raw('skinparam linetype ortho'),
+      new Raw('skinparam MinClassWidth 150'),
+      new Raw('hide circle'),
       new Raw('hide empty members'),
+      new Raw("!theme $theme"),
     ];
   }
 
