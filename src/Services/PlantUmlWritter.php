@@ -4,7 +4,6 @@ namespace Jawira\EntityDraw\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Jawira\EntityDraw\Uml\ComponentInterface;
 use Jawira\EntityDraw\Uml\Entity;
 use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Inheritance;
@@ -18,13 +17,14 @@ class PlantUmlWritter
   }
 
   /**
+   * @see https://forum.plantuml.net/1139/please-support-php-namespace-separator
    * @return \Jawira\EntityDraw\Uml\Raw[]
    */
   public function generateHeader(): array
   {
     return [
       new Raw('@startuml'),
-      new Raw('set separator \\\\'),
+      new Raw('set separator \\ '),
       new Raw('!pragma useIntermediatePackages false'),
       new Raw('skinparam linetype ortho'),
       new Raw('hide empty members'),
@@ -101,5 +101,3 @@ class PlantUmlWritter
     return $relations;
   }
 }
-
-

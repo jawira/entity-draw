@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Jawira\EntityDraw\Services\PlantUmlWritter;
 use Jawira\EntityDraw\Services\Toolbox;
 
-class Mini implements DiagramInterface
+class Midi implements DiagramInterface
 {
   private PlantUmlWritter $plantUmlWritter;
   private Toolbox $toolbox;
@@ -24,6 +24,9 @@ class Mini implements DiagramInterface
   {
     $header = $this->plantUmlWritter->generateHeader();
     $entities = $this->plantUmlWritter->generateEntities($this->exclusions);
+    foreach ($entities as $entity) {
+      $entity->generateProperties();
+    }
     $inheritance = $this->plantUmlWritter->generateInheritance($this->exclusions);
     $relations = $this->plantUmlWritter->generateRelations($this->exclusions);
     $footer = $this->plantUmlWritter->generateFooter();

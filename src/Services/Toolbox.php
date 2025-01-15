@@ -2,7 +2,6 @@
 
 namespace Jawira\EntityDraw\Services;
 
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Jawira\EntityDraw\Uml\ComponentInterface;
 
 class Toolbox
