@@ -11,7 +11,6 @@ use Jawira\EntityDraw\Services\Toolbox;
  */
 class Entity implements ComponentInterface
 {
-  private const ABSTRACT = '<<abstract>>';
   private array $properties = [];
   private Toolbox $toolbox;
   private Raw $header;
@@ -27,9 +26,12 @@ class Entity implements ComponentInterface
   private function generateHeaderAndFooter(): void
   {
     $name = $this->toolbox->escapeSlash($this->metadata->getName());
+    $header = "class $name {";
     $isAbstract = $this->metadata->getReflectionClass()?->isAbstract();
-    $abstract = $isAbstract ? self::ABSTRACT : '';
-    $this->header = new Raw("class $name $abstract {");
+    if ($isAbstract) {
+      $header = "abstract $header";
+    }
+    $this->header = new Raw($header);
     $this->footer = new Raw('}');
   }
 
