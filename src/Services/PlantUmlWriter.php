@@ -9,7 +9,7 @@ use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Inheritance;
 use Jawira\EntityDraw\Uml\Relation;
 
-class PlantUmlWritter
+class PlantUmlWriter
 {
   private readonly Toolbox $toolbox;
 
