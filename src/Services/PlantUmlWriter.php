@@ -29,7 +29,7 @@ class PlantUmlWriter
       new Raw('set separator \\ '),
       new Raw('!pragma useIntermediatePackages false'),
       new Raw('skinparam linetype ortho'),
-      new Raw('skinparam MinClassWidth 150'),
+      new Raw('skinparam MinClassWidth 140'),
       new Raw('hide circle'),
       new Raw('hide empty members'),
       new Raw("!theme $theme"),

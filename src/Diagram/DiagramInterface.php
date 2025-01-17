@@ -4,9 +4,6 @@ namespace Jawira\EntityDraw\Diagram;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-/**
- * @internal
- */
 interface DiagramInterface
 {
   public function __construct(EntityManagerInterface $entityManager);

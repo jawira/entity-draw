@@ -11,9 +11,6 @@ class Mini implements DiagramInterface
   private PlantUmlWriter $plantUmlWriter;
   private Toolbox $toolbox;
 
-  /**
-   * @param string[] $exclusions
-   */
   public function __construct(EntityManagerInterface $entityManager)
   {
     $this->toolbox = new Toolbox();
