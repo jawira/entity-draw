@@ -9,9 +9,11 @@ use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Inheritance;
 use Jawira\EntityDraw\Uml\Relation;
 
-class PlantUmlWritter
+class PlantUmlWriter
 {
-  public function __construct(private EntityManagerInterface $entityManager)
+  private readonly Toolbox $toolbox;
+
+  public function __construct(private readonly EntityManagerInterface $entityManager)
   {
     $this->toolbox = new Toolbox();
   }
@@ -20,14 +22,17 @@ class PlantUmlWritter
    * @see https://forum.plantuml.net/1139/please-support-php-namespace-separator
    * @return \Jawira\EntityDraw\Uml\Raw[]
    */
-  public function generateHeader(): array
+  public function generateHeader(string $theme): array
   {
     return [
       new Raw('@startuml'),
       new Raw('set separator \\ '),
       new Raw('!pragma useIntermediatePackages false'),
       new Raw('skinparam linetype ortho'),
+      new Raw('skinparam MinClassWidth 140'),
+      new Raw('hide circle'),
       new Raw('hide empty members'),
+      new Raw("!theme $theme"),
     ];
   }
 
@@ -40,14 +45,14 @@ class PlantUmlWritter
   }
 
   /**
-   * @param string[] $exclusions
+   * @param string[] $exclude
    * @return \Jawira\EntityDraw\Uml\Entity[]
    */
-  public function generateEntities(array $exclusions): array
+  public function generateEntities(array $exclude): array
   {
     $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
-    $filter = function (ClassMetadata $metadata) use ($exclusions) {
-      return !\in_array($metadata->getName(), $exclusions, true);
+    $filter = function (ClassMetadata $metadata) use ($exclude) {
+      return !\in_array($metadata->getName(), $exclude, true);
     };
     $metadata = \array_filter($metadata, $filter);
     $entities = \array_map(fn(ClassMetadata $metadata): Entity => new Entity($metadata), $metadata);
@@ -55,17 +60,17 @@ class PlantUmlWritter
     return $entities;
   }
 
-  public function generateInheritance(array $exclusions): array
+  public function generateInheritance(array $exclude): array
   {
     $entities = $this->entityManager->getMetadataFactory()->getAllMetadata();
 
     $inheritance = [];
     foreach ($entities as $entity) {
-      if (\in_array($entity->getName(), $exclusions, true)) {
+      if (\in_array($entity->getName(), $exclude, true)) {
         continue;
       }
       foreach ($entity->subClasses as $subClass) {
-        if (\in_array($subClass, $exclusions, true)) {
+        if (\in_array($subClass, $exclude, true)) {
           continue;
         }
         $inheritance[] = new Inheritance($entity, $subClass);
@@ -76,19 +81,19 @@ class PlantUmlWritter
   }
 
   /**
-   * @param string[] $exclusions
+   * @param string[] $exclude
    * @return \Jawira\EntityDraw\Uml\Relation[]
    */
-  public function generateRelations(array $exclusions): array
+  public function generateRelations(array $exclude): array
   {
     $relations = [];
     $entities = $this->entityManager->getMetadataFactory()->getAllMetadata();
     foreach ($entities as $entity) {
-      if (\in_array($entity->getName(), $exclusions, true)) {
+      if (\in_array($entity->getName(), $exclude, true)) {
         continue;
       }
       foreach ($entity->getAssociationMappings() as $associationMapping) {
-        if (\in_array($associationMapping['targetEntity'], $exclusions, true)) {
+        if (\in_array($associationMapping['targetEntity'], $exclude, true)) {
           continue;
         }
         if ($this->toolbox->isInverseSide($associationMapping)) {
