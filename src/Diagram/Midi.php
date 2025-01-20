@@ -17,15 +17,15 @@ class Midi implements DiagramInterface
     $this->plantUmlWriter = new PlantUmlWriter($entityManager);
   }
 
-  public function getPlantUmlCode(string $theme, array $exclusions): string
+  public function generateDiagram(string $theme, array $exclude): string
   {
     $header = $this->plantUmlWriter->generateHeader($theme);
-    $entities = $this->plantUmlWriter->generateEntities($exclusions);
+    $entities = $this->plantUmlWriter->generateEntities($exclude);
     foreach ($entities as $entity) {
       $entity->generateProperties();
     }
-    $inheritance = $this->plantUmlWriter->generateInheritance($exclusions);
-    $relations = $this->plantUmlWriter->generateRelations($exclusions);
+    $inheritance = $this->plantUmlWriter->generateInheritance($exclude);
+    $relations = $this->plantUmlWriter->generateRelations($exclude);
     $footer = $this->plantUmlWriter->generateFooter();
 
     return $this->toolbox->reduceComponents([...$header, ...$entities, ...$inheritance, ...$relations, ...$footer]);

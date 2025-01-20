@@ -8,5 +8,5 @@ interface DiagramInterface
 {
   public function __construct(EntityManagerInterface $entityManager);
 
-  public function getPlantUmlCode(string $theme, array $exclusions): string;
+  public function generateDiagram(string $theme, array $exclude): string;
 }

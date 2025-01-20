@@ -9,7 +9,8 @@
   ],
   "require": {
     "php": "^8.0",
-    "doctrine/orm": "^2.10"
+    "doctrine/orm": "^2.9 || ^3.0",
+    "jawira/doctrine-diagram-contracts": "^v0"
   },
   "require-dev": {
     "jawira/skeleton": "^2.24"
