@@ -12,6 +12,7 @@ use Jawira\EntityDraw\Services\Toolbox;
 class Entity implements ComponentInterface
 {
   private array $properties = [];
+  private array $methods = [];
   private Toolbox $toolbox;
   private Raw $header;
   private Raw $footer;
@@ -42,9 +43,17 @@ class Entity implements ComponentInterface
     }
   }
 
+  public function generateMethods()
+  {
+    $methods = $this->metadata->getReflectionClass()->getMethods();
+    foreach ($methods as $method) {
+      $this->methods[] = new Method($method);
+    }
+  }
+
   public function __toString(): string
   {
-    $components = [$this->header, ...$this->properties, $this->footer];
+    $components = [$this->header, ...$this->properties, ...$this->methods, $this->footer];
 
     return $this->toolbox->reduceComponents($components);
   }

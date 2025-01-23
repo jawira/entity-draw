@@ -2,14 +2,11 @@
 
 namespace Jawira\EntityDraw\Uml;
 
+use Jawira\EntityDraw\Services\Toolbox;
 use function strval;
 
 class Property implements ComponentInterface
 {
-  private const PRIVATE = '-';
-  private const PROTECTED = '#';
-  private const PUBLIC = '+';
-
   /**
    * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml
    */
@@ -21,10 +18,20 @@ class Property implements ComponentInterface
   private function generateVisibility(): string
   {
     return match (true) {
-      $this->property->isPublic() => self::PUBLIC,
-      $this->property->isProtected() => self::PROTECTED,
-      $this->property->isPrivate() => self::PRIVATE,
+      $this->property->isPublic() => Toolbox::PUBLIC,
+      $this->property->isProtected() => Toolbox::PROTECTED,
+      $this->property->isPrivate() => Toolbox::PRIVATE,
     };
+  }
+
+  private function generateDefaultValue(): string
+  {
+    if (!$this->property->hasDefaultValue()) {
+      return '';
+    }
+    $value = $this->property->getDefaultValue();
+
+    return ' = ' . var_export($value, true);
   }
 
   public function __toString(): string
@@ -32,8 +39,8 @@ class Property implements ComponentInterface
     $visibility = $this->generateVisibility();
     $name = $this->property->getName();
     $type = $this->generateType();
-
-    return "$visibility $name $type" . PHP_EOL;
+    $defaultValue = $this->generateDefaultValue();
+    return "$visibility$name $type$defaultValue" . PHP_EOL;
   }
 
   /**
