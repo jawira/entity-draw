@@ -1,2 +1,5 @@
 /vendor/
 /composer.lock
+/docs/guide.html
+/docs/guide.pdf
+/docs/guide.docx

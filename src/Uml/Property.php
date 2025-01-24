@@ -4,6 +4,7 @@ namespace Jawira\EntityDraw\Uml;
 
 use Jawira\EntityDraw\Services\Toolbox;
 use function strval;
+use function var_export;
 
 class Property implements ComponentInterface
 {
@@ -34,15 +35,6 @@ class Property implements ComponentInterface
     return ' = ' . var_export($value, true);
   }
 
-  public function __toString(): string
-  {
-    $visibility = $this->generateVisibility();
-    $name = $this->property->getName();
-    $type = $this->generateType();
-    $defaultValue = $this->generateDefaultValue();
-    return "$visibility$name $type$defaultValue" . PHP_EOL;
-  }
-
   /**
    * @return string
    */
@@ -51,6 +43,23 @@ class Property implements ComponentInterface
     $propertyType = $this->property->getType();
     $type = strval($propertyType);
 
-    return empty($type) ? '' : ": $type";
+    return empty($type) ? '' : " : $type";
+  }
+
+  private function generateReadOnly(): string
+  {
+    $isReadOnly = $this->property->isReadOnly();
+    return $isReadOnly ? ' {readonly}' : '';
+  }
+
+  public function __toString(): string
+  {
+    $visibility = $this->generateVisibility();
+    $name = $this->property->getName();
+    $type = $this->generateType();
+    $defaultValue = $this->generateDefaultValue();
+    $readOnly = $this->generateReadOnly();
+
+    return "$visibility$name$type$defaultValue$readOnly" . PHP_EOL;
   }
 }

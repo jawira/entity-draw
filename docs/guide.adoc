@@ -1,0 +1,39 @@
+= AsciiDoc Article Title
+Jawira Portugal <dev@tugal.be>
+:icons: font
+:toc:
+
+@todo This is the preamble.
+
+== Usage
+
+In order to use entity-draw you have to instantiate `\Jawira\EntityDraw\EntityDraw`, and call `generatePuml` method with required parameters. With this method you will generate a UML class diagram from you DoctrineORM entities.
+
+== Diagram sizes
+
+_entity-draw_ can generate class diagrams in three sizes: mini, midi, and maxi.
+
+=== Mini size
+
+As the name suggest, mini diagrams will only display the minimal information about your entities.
+Only name entities and relationships are displayed.
+
+=== Midi size
+
+Midi size will display the same information as mini diagram, but additionally, class properties are going to be displayed.
+Properties follow the UML syntax, so property parts are displayed as follows: visibility, variable, return type, and default value.
+All these elements are displayed only if available, of course.
+
+It is important to note that only properties with a corresponding _column_ annotation are going to be displayed.
+
+[source,php]
+----
+include::Person.php[tag=person]
+----
+
+In the previous code snipped, `$name` will be described in UML diagram, while `$age` will not be shown.
+
+== Themes
+
+Theme functionality is provided by PlantUML, entity-draw provide a list of themes, these are provided by `\Jawira\DoctrineDiagramContracts\Theme` enum.
+However, because the list of themes could be out of date you can also define your own themes as _strings_.

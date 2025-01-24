@@ -15,7 +15,8 @@ class Parameter implements ComponentInterface
   {
     $parameterType = $this->parameter->getType();
 
-    return strval($parameterType);
+    $type = strval($parameterType);
+    return empty($type) ? '' : " : $type";
   }
 
   public function generateName(): string
@@ -27,7 +28,7 @@ class Parameter implements ComponentInterface
     if ($this->parameter->isVariadic()) {
       $name .= '...';
     }
-    $name .= '$' . $this->parameter->getName();
+    $name .= $this->parameter->getName();
 
     return $name;
   }
@@ -49,6 +50,7 @@ class Parameter implements ComponentInterface
     $type = $this->generateType();
     $name = $this->generateName();
     $defaultValue = $this->generateDefaultValue();
-    return "$type $name$defaultValue";
+
+    return "$name$type$defaultValue";
   }
 }
