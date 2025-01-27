@@ -46,6 +46,9 @@ class Property implements ComponentInterface
     return empty($type) ? '' : " : $type";
   }
 
+  /**
+   * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml
+   */
   private function generateReadOnly(): string
   {
     $isReadOnly = $this->property->isReadOnly();
