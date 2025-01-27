@@ -7,7 +7,9 @@ use Jawira\EntityDraw\Uml\ComponentInterface;
 class Toolbox
 {
   private const SLASH = '\\';
-
+  public const PRIVATE = '-';
+  public const PROTECTED = '#';
+  public const PUBLIC = '+';
   /**
    * Reduce an array of {@see ComponentInterface} objects to array.
    *

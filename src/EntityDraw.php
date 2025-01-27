@@ -6,8 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Jawira\DoctrineDiagramContracts\DiagramGeneratorInterface;
 use Jawira\DoctrineDiagramContracts\Size;
 use Jawira\DoctrineDiagramContracts\Theme;
-use Jawira\EntityDraw\Diagram\Midi;
-use Jawira\EntityDraw\Diagram\Mini;
 use function is_string;
 
 class EntityDraw implements DiagramGeneratorInterface
@@ -22,11 +20,13 @@ class EntityDraw implements DiagramGeneratorInterface
       $size = Size::from($size);
     }
 
-    $diagram = match ($size) {
-      Size::Mini => new Mini($this->entityManager),
-      Size::Midi, Size::Maxi => new Midi($this->entityManager),
-    };
 
+    $diagramClass = match ($size) {
+      Size::Mini => Diagram\Mini::class,
+      Size::Midi => Diagram\Midi::class,
+      Size::Maxi => Diagram\Maxi::class,
+    };
+    $diagram = new $diagramClass($this->entityManager);
     if ($theme instanceof Theme) {
       $theme = $theme->value;
     }

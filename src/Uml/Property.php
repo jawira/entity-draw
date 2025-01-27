@@ -2,14 +2,12 @@
 
 namespace Jawira\EntityDraw\Uml;
 
+use Jawira\EntityDraw\Services\Toolbox;
 use function strval;
+use function var_export;
 
 class Property implements ComponentInterface
 {
-  private const PRIVATE = '-';
-  private const PROTECTED = '#';
-  private const PUBLIC = '+';
-
   /**
    * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml
    */
@@ -21,19 +19,20 @@ class Property implements ComponentInterface
   private function generateVisibility(): string
   {
     return match (true) {
-      $this->property->isPublic() => self::PUBLIC,
-      $this->property->isProtected() => self::PROTECTED,
-      $this->property->isPrivate() => self::PRIVATE,
+      $this->property->isPublic() => Toolbox::PUBLIC,
+      $this->property->isProtected() => Toolbox::PROTECTED,
+      $this->property->isPrivate() => Toolbox::PRIVATE,
     };
   }
 
-  public function __toString(): string
+  private function generateDefaultValue(): string
   {
-    $visibility = $this->generateVisibility();
-    $name = $this->property->getName();
-    $type = $this->generateType();
+    if (!$this->property->hasDefaultValue()) {
+      return '';
+    }
+    $value = $this->property->getDefaultValue();
 
-    return "$visibility $name $type" . PHP_EOL;
+    return ' = ' . var_export($value, true);
   }
 
   /**
@@ -44,6 +43,26 @@ class Property implements ComponentInterface
     $propertyType = $this->property->getType();
     $type = strval($propertyType);
 
-    return empty($type) ? '' : ": $type";
+    return empty($type) ? '' : " : $type";
+  }
+
+  /**
+   * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml
+   */
+  private function generateReadOnly(): string
+  {
+    $isReadOnly = $this->property->isReadOnly();
+    return $isReadOnly ? ' {readonly}' : '';
+  }
+
+  public function __toString(): string
+  {
+    $visibility = $this->generateVisibility();
+    $name = $this->property->getName();
+    $type = $this->generateType();
+    $defaultValue = $this->generateDefaultValue();
+    $readOnly = $this->generateReadOnly();
+
+    return "$visibility$name$type$defaultValue$readOnly" . PHP_EOL;
   }
 }
