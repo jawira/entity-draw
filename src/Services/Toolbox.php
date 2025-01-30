@@ -2,6 +2,7 @@
 
 namespace Jawira\EntityDraw\Services;
 
+use ArrayAccess;
 use Jawira\EntityDraw\Uml\ComponentInterface;
 
 class Toolbox
@@ -13,7 +14,7 @@ class Toolbox
   /**
    * Reduce an array of {@see ComponentInterface} objects to array.
    *
-   * @param \Jawira\EntityDraw\Uml\ComponentInterface $components
+   * @param \Jawira\EntityDraw\Uml\ComponentInterface[] $components
    * @return string
    */
   public function reduceComponents(array $components): string
@@ -42,7 +43,7 @@ class Toolbox
    * @param string[] $associationMapping
    * @return bool
    */
-  public function isInverseSide(array $associationMapping): bool
+  public function isInverseSide(array|ArrayAccess $associationMapping): bool
   {
     return !empty($associationMapping['mappedBy']);
   }

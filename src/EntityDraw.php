@@ -20,7 +20,6 @@ class EntityDraw implements DiagramGeneratorInterface
       $size = Size::from($size);
     }
 
-
     $diagramClass = match ($size) {
       Size::Mini => Diagram\Mini::class,
       Size::Midi => Diagram\Midi::class,

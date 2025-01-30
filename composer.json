@@ -1,5 +1,6 @@
 {
   "name": "jawira/entity-draw",
+  "description": "This library generates class diagrams from your Doctrine ORM entities.",
   "license": "MIT",
   "type": "library",
   "authors": [
@@ -8,16 +9,21 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "doctrine/orm": "^2.9 || ^3.0",
-    "jawira/doctrine-diagram-contracts": "^v0"
+    "php": "^8.1",
+    "doctrine/orm": "^2.9 || ^3",
+    "jawira/doctrine-diagram-contracts": "^v1"
   },
   "require-dev": {
-    "jawira/skeleton": "^2.24"
+    "jawira/skeleton": "^2.27"
   },
   "autoload": {
     "psr-4": {
       "Jawira\\EntityDraw\\": "src/"
     }
+  },
+  "config": {
+    "sort-packages": true,
+    "platform-check": true,
+    "preferred-install": "dist"
   }
 }
