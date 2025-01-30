@@ -2,8 +2,8 @@
 
 namespace Jawira\EntityDraw\Uml;
 
+use ArrayAccess;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Jawira\EntityDraw\EntityDrawException;
 use Jawira\EntityDraw\Services\Toolbox;
 
@@ -14,21 +14,44 @@ use Jawira\EntityDraw\Services\Toolbox;
  */
 class Relation implements ComponentInterface
 {
+  /**
+   * Copy/paste from DoctrineORM. In v2 this constant is located in
+   * `ClassMetadataInfo` class, whilst in v3 was moved to `ClassMetadata`.
+   */
+  private const ONE_TO_ONE = 1;
+
+  /**
+   * Copy/paste from DoctrineORM. In v2 this constant is located in
+   * `ClassMetadataInfo` class, whilst in v3 was moved to `ClassMetadata`.
+   */
+  private const MANY_TO_ONE = 2;
+
+  /**
+   * Copy/paste from DoctrineORM. In v2 this constant is located in
+   * `ClassMetadataInfo` class, whilst in v3 was moved to `ClassMetadata`.
+   */
+  private const MANY_TO_MANY = 8;
+
   private Toolbox $toolbox;
 
-  public function __construct(private ClassMetadata $entity, private array $associationMapping)
+  public function __construct(private ClassMetadata $entity, private array|ArrayAccess $associationMapping)
   {
     $this->toolbox = new Toolbox();
   }
 
+  /**
+   * This method uses constants to determine the cardinality, this is done to
+   * keep compatibility between **DoctrineORM v2** and **v3**.
+   * However, this must be refactored as soon v2 as is not at dependency anymore.
+   */
   private function getOwningSideCardinality(): string
   {
     switch ($this->associationMapping['type']) {
-      case ClassMetadataInfo::ONE_TO_ONE:
+      case self::ONE_TO_ONE:
         $cardinality = '1';
         break;
-      case ClassMetadataInfo::MANY_TO_ONE:
-      case ClassMetadataInfo::MANY_TO_MANY:
+      case self::MANY_TO_ONE:
+      case self::MANY_TO_MANY:
         $cardinality = '*';
         break;
       default:
@@ -38,14 +61,19 @@ class Relation implements ComponentInterface
     return $cardinality;
   }
 
+  /**
+   * This method uses constants to determine the cardinality, this is done to
+   * keep compatibility between **DoctrineORM v2** and **v3**.
+   * However, this must be refactored as soon v2 as is not at dependency anymore.
+   */
   private function getInverseSideCardinality(): string
   {
     switch ($this->associationMapping['type']) {
-      case ClassMetadataInfo::ONE_TO_ONE:
-      case ClassMetadataInfo::MANY_TO_ONE:
+      case self::ONE_TO_ONE:
+      case self::MANY_TO_ONE:
         $cardinality = '1';
         break;
-      case ClassMetadataInfo::MANY_TO_MANY:
+      case self::MANY_TO_MANY:
         $cardinality = '*';
         break;
       default:
