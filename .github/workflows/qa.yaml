@@ -1,0 +1,23 @@
+name: Quality Assurance
+on: [ pull_request ]
+jobs:
+  QA:
+    strategy:
+      matrix:
+        php: [ '8.1','8.2','8.3','8.4' ]
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          tools: phing:v3
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Phing
+        run: phing composer:install composer:validate psalm:run cs:check

@@ -1,0 +1,8 @@
+/.github			export-ignore
+/docs				export-ignore
+/resources			export-ignore
+/.gitattributes		export-ignore
+
+*.php	text	eol=lf	diff=php
+*.svg	text	eol=lf
+*.png	binary

@@ -14,7 +14,9 @@
     "jawira/doctrine-diagram-contracts": "^v1"
   },
   "require-dev": {
-    "jawira/skeleton": "^2.27"
+    "friendsofphp/php-cs-fixer": "^3.68",
+    "jawira/skeleton": "^2.27",
+    "vimeo/psalm": "^6.1"
   },
   "autoload": {
     "psr-4": {
