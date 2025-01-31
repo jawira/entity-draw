@@ -86,7 +86,11 @@ class Relation implements ComponentInterface
   public function __toString(): string
   {
     $entityName = $this->toolbox->escapeSlash($this->entity->getName());
-    $targetEntity = $this->toolbox->escapeSlash($this->associationMapping['targetEntity']);
+    $targetEntity = $this->associationMapping['targetEntity'];
+    if (!is_string($targetEntity)) {
+      throw new EntityDrawException('Cannot determine target entity name.');
+    }
+    $targetEntity = $this->toolbox->escapeSlash($targetEntity);
     $unidirectional = empty($this->associationMapping['inversedBy']) ? '>' : '';
 
     return sprintf(

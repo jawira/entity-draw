@@ -16,6 +16,7 @@ class Parameter implements ComponentInterface
     $parameterType = $this->parameter->getType();
 
     $type = strval($parameterType);
+
     return empty($type) ? '' : " : $type";
   }
 
@@ -38,7 +39,7 @@ class Parameter implements ComponentInterface
     if (!$this->parameter->isOptional() || !$this->parameter->isDefaultValueAvailable()) {
       return '';
     }
-
+    /** @var mixed $value */
     $value = $this->parameter->getDefaultValue();
 
     return ' = ' . var_export($value, true);

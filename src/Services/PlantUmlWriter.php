@@ -51,7 +51,7 @@ class PlantUmlWriter
   public function generateEntities(array $exclude): array
   {
     $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
-    $filter = function (ClassMetadata $metadata) use ($exclude) {
+    $filter = function (ClassMetadata $metadata) use ($exclude): bool {
       return !\in_array($metadata->getName(), $exclude, true);
     };
     $metadata = \array_filter($metadata, $filter);
@@ -60,6 +60,10 @@ class PlantUmlWriter
     return $entities;
   }
 
+  /**
+   * @param string[] $exclude
+   * @return Inheritance[]
+   */
   public function generateInheritance(array $exclude): array
   {
     $entities = $this->entityManager->getMetadataFactory()->getAllMetadata();

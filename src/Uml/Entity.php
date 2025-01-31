@@ -11,7 +11,9 @@ use Jawira\EntityDraw\Services\Toolbox;
  */
 class Entity implements ComponentInterface
 {
+  /** @var \Jawira\EntityDraw\Uml\Property[] */
   private array $properties = [];
+  /** @var \Jawira\EntityDraw\Uml\Method[] */
   private array $methods = [];
   private Toolbox $toolbox;
   private Raw $header;
@@ -28,7 +30,7 @@ class Entity implements ComponentInterface
   {
     $name = $this->toolbox->escapeSlash($this->metadata->getName());
     $header = "class $name {";
-    $isAbstract = $this->metadata->getReflectionClass()?->isAbstract();
+    $isAbstract = $this->metadata->getReflectionClass()->isAbstract();
     if ($isAbstract) {
       $header = "abstract $header";
     }
@@ -39,11 +41,14 @@ class Entity implements ComponentInterface
   public function generateProperties(): void
   {
     foreach ($this->metadata->getReflectionProperties() as $property) {
+      if (!$property instanceof \ReflectionProperty) {
+        continue;
+      }
       $this->properties[] = new Property($property);
     }
   }
 
-  public function generateMethods()
+  public function generateMethods(): void
   {
     $methods = $this->metadata->getReflectionClass()->getMethods();
     foreach ($methods as $method) {

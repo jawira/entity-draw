@@ -1,7 +1,11 @@
-/.github			export-ignore
-/docs				export-ignore
-/resources			export-ignore
-/.gitattributes		export-ignore
+/.github				export-ignore
+/docs					export-ignore
+/resources				export-ignore
+/.editorconfig			export-ignore
+/.gitattributes			export-ignore
+/.php-cs-fixer.dist.php	export-ignore
+/build.xml				export-ignore
+/psalm.xml				export-ignore
 
 *.php	text	eol=lf	diff=php
 *.svg	text	eol=lf

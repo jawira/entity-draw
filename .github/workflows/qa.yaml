@@ -20,4 +20,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Phing
-        run: phing composer:install composer:validate psalm:run cs:check
+        run: >
+          PHP_CS_FIXER_IGNORE_ENV=yes phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
+          composer:install composer:validate cs:check psalm:run
