@@ -5,6 +5,7 @@ jobs:
     strategy:
       matrix:
         php: [ '8.1','8.2','8.3','8.4' ]
+        options: ['--no-progress', '--no-progress --prefer-lowest']
 
     runs-on: ubuntu-latest
     steps:
@@ -14,12 +15,26 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
-          tools: phing:v3
+          tools: phing:v3,php-cs-fixer:v3,psalm:v6
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Phing
+      - name: Update dependencies
+        run: composer update ${{ matrix.options }}
+
+      - name: Composer
         run: >
-          PHP_CS_FIXER_IGNORE_ENV=yes phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
-          composer:install composer:validate cs:check psalm:run
+          phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
+          -Dcomposer.flags="--no-dev" composer:install composer:validate
+
+      - name: Psalm
+        run: >
+          phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
+          -Dbin.psalm=psalm psalm:run
+
+      - name: php-cs-fixer
+        run: >
+          PHP_CS_FIXER_IGNORE_ENV=yes
+          phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
+          -Dbin.cs=php-cs-fixer cs:check
