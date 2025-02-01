@@ -30,16 +30,15 @@ class Property implements ComponentInterface
     if (!$this->property->hasDefaultValue()) {
       return '';
     }
+    /** @var mixed $value */
     $value = $this->property->getDefaultValue();
 
     return ' = ' . var_export($value, true);
   }
 
-  /**
-   * @return string
-   */
   public function generateType(): string
   {
+    /** @var \ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType|null $propertyType */
     $propertyType = $this->property->getType();
     $type = strval($propertyType);
 

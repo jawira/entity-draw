@@ -23,6 +23,10 @@ composer require jawira/entity-draw
   [![𝕏 Follow](https://img.shields.io/twitter/follow/jawira?style=social)](https://x.com/jawira)
 - Found a bug? Please report it by opening an issue!
 
+## Phing
+
+![phing buildfile](build.svg)
+
 ## License
 
 This library is licensed under the [MIT license](LICENSE.md).

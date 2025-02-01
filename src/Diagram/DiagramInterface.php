@@ -8,5 +8,8 @@ interface DiagramInterface
 {
   public function __construct(EntityManagerInterface $entityManager);
 
+  /**
+   * @param string[] $exclude
+   */
   public function generateDiagram(string $theme, array $exclude): string;
 }

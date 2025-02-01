@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jawira/entity-draw" description="This library generates class diagrams from your Doctrine ORM entities." default="help" phingVersion="3">
+
+  <property name="composer.flags" value="--ansi"/>
+
+
+  <target name="setup" depends="composer:install"/>
+  <target name="qa" depends="composer:validate,psalm:run,cs:check"/>
+
+  <target name="composer:install" description="Installs the project dependencies">
+    <exec executable="composer" checkreturn="true" passthru="true">
+      <env key="XDEBUG_MODE" value="off"/>
+      <arg value="install"/>
+      <arg line="--no-interaction --prefer-dist --no-progress --ansi"/>
+      <arg line="${composer.flags}"/>
+    </exec>
+  </target>
+
+  <target name="composer:validate" description="Validates a composer.json and composer.lock">
+    <composer command="validate">
+      <arg line="--strict --ansi --no-interaction"/>
+    </composer>
+  </target>
+
+  <target name="psalm:run" description="Check code with Psalm">
+    <exec executable="vendor/bin/psalm" checkreturn="true" passthru="true">
+      <arg line="--no-cache --long-progress"/>
+    </exec>
+  </target>
+
+  <target name="help">
+    <uptodate property="uptodate.visualizer" srcfile="build.xml" targetfile="build.svg"/>
+    <runtarget target="map"/>
+    <open path="build.svg"/>
+  </target>
+
+  <target name="map" unless="uptodate.visualizer" description="Create buildfile map">
+    <visualizer format="svg"/>
+  </target>
+
+  <target name="cs:fix" description="Fixes code style in src dir.">
+    <exec executable="vendor/bin/php-cs-fixer" passthru="true" checkreturn="true">
+      <arg line="--ansi --no-interaction --allow-risky=yes --verbose"/>
+      <arg value="fix"/>
+      <arg file="src"/>
+    </exec>
+  </target>
+
+  <target name="cs:check" description="Checks if configured files/directories comply with configured rules.">
+    <exec executable="vendor/bin/php-cs-fixer" passthru="true" checkreturn="true">
+      <arg line="--ansi --no-interaction --allow-risky=yes --verbose"/>
+      <arg value="check"/>
+      <arg file="src"/>
+    </exec>
+  </target>
+
+</project>

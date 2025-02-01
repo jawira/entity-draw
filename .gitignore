@@ -3,3 +3,5 @@
 /docs/guide.html
 /docs/guide.pdf
 /docs/guide.docx
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
