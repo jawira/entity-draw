@@ -17,6 +17,7 @@ class Midi implements DiagramInterface
     $this->plantUmlWriter = new PlantUmlWriter($entityManager);
   }
 
+  #[\Override]
   public function generateDiagram(string $theme, array $exclude): string
   {
     $header = $this->plantUmlWriter->generateHeader($theme);

@@ -43,7 +43,7 @@ class Method implements ComponentInterface
       return $returnType;
     }
     $returnType .= ': ';
-    $returnType .= $this->method->getReturnType();
+    $returnType .= strval($this->method->getReturnType());
 
     return $returnType;
   }

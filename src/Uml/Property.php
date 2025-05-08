@@ -73,12 +73,18 @@ class Property implements ComponentInterface
    */
   private function isDeprecated(): bool
   {
+    // As annotation
     $docComment = $this->property->getDocComment();
-    if (!is_string($docComment)) {
-      return false;
+    if (is_string($docComment) && str_contains($docComment, '@deprecated')) {
+      return true;
     }
 
-    return str_contains($docComment, '@deprecated');
+    // As attribute
+    /** @var class-string $classString */
+    $deprecatedClass = \Deprecated::class;
+    $attributes = $this->property->getAttributes($deprecatedClass);
+
+    return count($attributes) > 0;
   }
 
   public function __toString(): string
