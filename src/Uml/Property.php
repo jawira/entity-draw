@@ -3,6 +3,7 @@
 namespace Jawira\EntityDraw\Uml;
 
 use Jawira\EntityDraw\Services\Toolbox;
+use function str_contains;
 use function strval;
 use function var_export;
 
@@ -51,17 +52,43 @@ class Property implements ComponentInterface
   private function generateReadOnly(): string
   {
     $isReadOnly = $this->property->isReadOnly();
+
     return $isReadOnly ? ' {readonly}' : '';
+  }
+
+
+  /**
+   * Generate property name string.
+   */
+  private function generateName(): string
+  {
+    $name = $this->property->getName();
+    $isDeprecated = $this->isDeprecated();
+
+    return $isDeprecated ? "--{$name}--" : $name;
+  }
+
+  /**
+   * Tells if the current property is deprecated.
+   */
+  private function isDeprecated(): bool
+  {
+    $docComment = $this->property->getDocComment();
+    if (!is_string($docComment)) {
+      return false;
+    }
+
+    return str_contains($docComment, '@deprecated');
   }
 
   public function __toString(): string
   {
     $visibility = $this->generateVisibility();
-    $name = $this->property->getName();
+    $name = $this->generateName();
     $type = $this->generateType();
     $defaultValue = $this->generateDefaultValue();
     $readOnly = $this->generateReadOnly();
 
-    return "$visibility$name$type$defaultValue$readOnly" . PHP_EOL;
+    return "$visibility $name$type$defaultValue$readOnly" . PHP_EOL;
   }
 }

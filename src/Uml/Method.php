@@ -9,11 +9,8 @@ use Jawira\EntityDraw\Services\Toolbox;
  */
 class Method implements ComponentInterface
 {
-  private Toolbox $toolbox;
-
   public function __construct(private readonly \ReflectionMethod $method)
   {
-    $this->toolbox = new Toolbox();
   }
 
   private function generateVisibility(): string

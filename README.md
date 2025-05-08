@@ -3,12 +3,10 @@
 **This library generates class diagrams from your Doctrine ORM entities.<br>
 It is designed for use with [jawira/doctrine-diagram-bundle](https://packagist.org/packages/jawira/doctrine-diagram-bundle).**
 
-
-
-![Packagist Version](https://img.shields.io/packagist/v/jawira/entity-draw)
-![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/jawira/entity-draw/php)
-![Packagist Downloads](https://img.shields.io/packagist/dt/jawira/entity-draw)
-![Packagist License](https://img.shields.io/packagist/l/jawira/entity-draw)
+[![Packagist Version](https://img.shields.io/packagist/v/jawira/entity-draw)][packagist]
+[![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/jawira/entity-draw/php)][packagist]
+[![Packagist Downloads](https://img.shields.io/packagist/dt/jawira/entity-draw)][packagist]
+[![Packagist License](https://img.shields.io/packagist/l/jawira/entity-draw)][packagist]
 
 ## Install
 
@@ -53,3 +51,6 @@ This library is licensed under the [MIT license](LICENSE.md).
 
 <dt><a href="https://packagist.org/packages/jawira/">more...</a></dt>
 </dl>
+
+
+[packagist]: <https://packagist.org/packages/jawira/entity-draw>

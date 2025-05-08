@@ -44,6 +44,9 @@ class Entity implements ComponentInterface
       if (!$property instanceof \ReflectionProperty) {
         continue;
       }
+      if ($property->getDeclaringClass()->getName() !== $this->metadata->getName()) {
+        continue;
+      }
       $this->properties[] = new Property($property);
     }
   }
@@ -52,6 +55,9 @@ class Entity implements ComponentInterface
   {
     $methods = $this->metadata->getReflectionClass()->getMethods();
     foreach ($methods as $method) {
+      if ($method->getDeclaringClass()->getName() !== $this->metadata->getName()) {
+        continue;
+      }
       $this->methods[] = new Method($method);
     }
   }
