@@ -5,9 +5,9 @@ jobs:
     strategy:
       matrix:
         php: [ '8.1','8.2','8.3','8.4' ]
-        options: ['--no-progress', '--no-progress --prefer-lowest']
+        lowest: ['0', '1']
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
 
       - name: Setup PHP
@@ -15,15 +15,17 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
-          tools: phing:v3,php-cs-fixer:v3,psalm:v6
+          tools: phing:3, php-cs-fixer:v3.75, psalm:6.7.1
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update dependencies
+      - name: Update Composer dependencies
+        env:
+          COMPOSER_PREFER_LOWEST: ${{ matrix.lowest }}
         run: composer update ${{ matrix.options }}
 
-      - name: Composer
+      - name: Install Composer dependencies and validate
         run: >
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
           -Dcomposer.flags="--no-dev" composer:install composer:validate
@@ -34,7 +36,8 @@ jobs:
           -Dbin.psalm=psalm psalm:run
 
       - name: php-cs-fixer
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: yes
         run: >
-          PHP_CS_FIXER_IGNORE_ENV=yes
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
           -Dbin.cs=php-cs-fixer cs:check

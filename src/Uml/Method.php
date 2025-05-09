@@ -9,11 +9,8 @@ use Jawira\EntityDraw\Services\Toolbox;
  */
 class Method implements ComponentInterface
 {
-  private Toolbox $toolbox;
-
   public function __construct(private readonly \ReflectionMethod $method)
   {
-    $this->toolbox = new Toolbox();
   }
 
   private function generateVisibility(): string
@@ -46,7 +43,7 @@ class Method implements ComponentInterface
       return $returnType;
     }
     $returnType .= ': ';
-    $returnType .= $this->method->getReturnType();
+    $returnType .= strval($this->method->getReturnType());
 
     return $returnType;
   }

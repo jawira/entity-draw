@@ -14,6 +14,7 @@ class EntityDraw implements DiagramGeneratorInterface
   {
   }
 
+  #[\Override]
   public function generatePuml(string|Size $size, string|Theme $theme, array $exclude): string
   {
     if (is_string($size)) {
