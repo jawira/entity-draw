@@ -34,7 +34,10 @@ class Property implements ComponentInterface
     /** @var mixed $value */
     $value = $this->property->getDefaultValue();
 
-    return ' = ' . var_export($value, true);
+    $varExport = var_export($value, true);
+    $varExport = $varExport === 'NULL' ? 'null' : $varExport;
+
+    return ' = ' . $varExport;
   }
 
   public function generateType(): string
