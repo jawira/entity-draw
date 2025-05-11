@@ -4,13 +4,11 @@ namespace Jawira\EntityDraw\Services;
 
 use ArrayAccess;
 use Jawira\EntityDraw\Uml\ComponentInterface;
-use function addcslashes;
 use function array_reduce;
 use function strval;
 
 class Toolbox
 {
-  private const SLASH = '\\';
   public const PRIVATE = '-';
   public const PROTECTED = '#';
   public const PUBLIC = '+';
@@ -26,14 +24,6 @@ class Toolbox
     };
 
     return array_reduce($components, $reducer, '');
-  }
-
-  /**
-   * Escape back-slash in class namespaces to be displayed in PlantUml diagrams.
-   */
-  public function escapeSlash(string $fqcn): string
-  {
-    return addcslashes($fqcn, self::SLASH);
   }
 
   /**
