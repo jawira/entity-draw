@@ -5,7 +5,6 @@ namespace Jawira\EntityDraw\Uml;
 use ArrayAccess;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Jawira\EntityDraw\EntityDrawException;
-use Jawira\EntityDraw\Services\Toolbox;
 
 /**
  * Association between entities.
@@ -32,11 +31,8 @@ class Relation implements ComponentInterface
    */
   private const MANY_TO_MANY = 8;
 
-  private Toolbox $toolbox;
-
   public function __construct(private ClassMetadata $entity, private array|ArrayAccess $associationMapping)
   {
-    $this->toolbox = new Toolbox();
   }
 
   /**
@@ -85,12 +81,12 @@ class Relation implements ComponentInterface
 
   public function __toString(): string
   {
-    $entityName = $this->toolbox->escapeSlash($this->entity->getName());
+    $entityName = $this->entity->getName();
     $targetEntity = $this->associationMapping['targetEntity'];
     if (!is_string($targetEntity)) {
       throw new EntityDrawException('Cannot determine target entity name.');
     }
-    $targetEntity = $this->toolbox->escapeSlash($targetEntity);
+    $targetEntity = $targetEntity;
     $unidirectional = empty($this->associationMapping['inversedBy']) ? '>' : '';
 
     return sprintf(

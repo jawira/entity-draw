@@ -28,7 +28,7 @@ class Entity implements ComponentInterface
 
   private function generateHeaderAndFooter(): void
   {
-    $name = $this->toolbox->escapeSlash($this->metadata->getName());
+    $name = $this->metadata->getName();
     $header = "class $name {";
     $isAbstract = $this->metadata->getReflectionClass()->isAbstract();
     if ($isAbstract) {
