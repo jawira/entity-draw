@@ -16,7 +16,7 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^v3.75",
     "jawira/skeleton": "^v2.27",
-    "vimeo/psalm": "6.7.*"
+    "vimeo/psalm": "6.7.* || 6.10.*"
   },
   "autoload": {
     "psr-4": {
