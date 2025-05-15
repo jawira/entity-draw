@@ -3,17 +3,21 @@
 namespace Jawira\EntityDraw\Uml;
 
 use Jawira\EntityDraw\Services\Toolbox;
+use Jawira\EntityDraw\Services\VarNormalizer;
 use function str_contains;
 use function strval;
 use function var_export;
 
 class Property implements ComponentInterface
 {
+  private VarNormalizer $varNormalizer;
+
   /**
    * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml
    */
   public function __construct(private readonly \ReflectionProperty $property)
   {
+    $this->varNormalizer = new VarNormalizer();
   }
 
 
@@ -35,7 +39,10 @@ class Property implements ComponentInterface
     $value = $this->property->getDefaultValue();
 
     $varExport = var_export($value, true);
-    $varExport = $varExport === 'NULL' ? 'null' : $varExport;
+    $varExport = $this->varNormalizer->lowercaseNull($varExport);
+    $varExport = $this->varNormalizer->shortArraySyntax($varExport);
+    $varExport = $this->varNormalizer->removeNewLines($varExport);
+    $varExport = $this->varNormalizer->escapeParenthesis($varExport);
 
     return ' = ' . $varExport;
   }
