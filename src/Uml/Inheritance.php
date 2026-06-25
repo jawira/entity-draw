@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 class Inheritance implements ComponentInterface
 {
-  public function __construct(private ClassMetadata $entity, private string $subClass)
+  public function __construct(private readonly ClassMetadata $entity, private readonly string $subClass)
   {
   }
 

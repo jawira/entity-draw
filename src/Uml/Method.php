@@ -61,7 +61,7 @@ class Method implements ComponentInterface
     return $parameters;
   }
 
-  public function __toString()
+  public function __toString(): string
   {
     $specifiers = $this->generateSpecifiers();
     $visibility = $this->generateVisibility();

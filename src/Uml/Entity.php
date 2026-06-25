@@ -15,11 +15,11 @@ class Entity implements ComponentInterface
   private array $properties = [];
   /** @var \Jawira\EntityDraw\Uml\Method[] */
   private array $methods = [];
-  private Toolbox $toolbox;
+  private readonly Toolbox $toolbox;
   private Raw $header;
   private Raw $footer;
 
-  public function __construct(private ClassMetadata $metadata)
+  public function __construct(private readonly ClassMetadata $metadata)
   {
     $this->toolbox = new Toolbox();
     $this->generateHeaderAndFooter();

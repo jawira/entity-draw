@@ -19,9 +19,7 @@ class Toolbox
    */
   public function reduceComponents(array $components): string
   {
-    $reducer = function (string $carry, ComponentInterface $component): string {
-      return $carry . strval($component);
-    };
+    $reducer = (fn(string $carry, ComponentInterface $component): string => $carry . strval($component));
 
     return array_reduce($components, $reducer, '');
   }

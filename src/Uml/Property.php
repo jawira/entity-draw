@@ -10,7 +10,7 @@ use function var_export;
 
 class Property implements ComponentInterface
 {
-  private VarNormalizer $varNormalizer;
+  private readonly VarNormalizer $varNormalizer;
 
   /**
    * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml

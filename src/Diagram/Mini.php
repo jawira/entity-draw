@@ -8,8 +8,8 @@ use Jawira\EntityDraw\Services\Toolbox;
 
 class Mini implements DiagramInterface
 {
-  private PlantUmlWriter $plantUmlWriter;
-  private Toolbox $toolbox;
+  private readonly PlantUmlWriter $plantUmlWriter;
+  private readonly Toolbox $toolbox;
 
   public function __construct(EntityManagerInterface $entityManager)
   {

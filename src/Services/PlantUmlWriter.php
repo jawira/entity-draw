@@ -51,9 +51,7 @@ class PlantUmlWriter
   public function generateEntities(array $exclude): array
   {
     $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
-    $filter = function (ClassMetadata $metadata) use ($exclude): bool {
-      return !\in_array($metadata->getName(), $exclude, true);
-    };
+    $filter = (fn(ClassMetadata $metadata): bool => !\in_array($metadata->getName(), $exclude, true));
     $metadata = \array_filter($metadata, $filter);
     $entities = \array_map(fn(ClassMetadata $metadata): Entity => new Entity($metadata), $metadata);
 
