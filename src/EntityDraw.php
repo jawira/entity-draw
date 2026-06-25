@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Jawira\DoctrineDiagramContracts\DiagramGeneratorInterface;
 use Jawira\DoctrineDiagramContracts\Size;
 use Jawira\DoctrineDiagramContracts\Theme;
-use function is_string;
 
 class EntityDraw implements DiagramGeneratorInterface
 {
@@ -15,18 +14,13 @@ class EntityDraw implements DiagramGeneratorInterface
   }
 
   #[\Override]
-  public function generatePuml(string|Size $size, string|Theme $theme, array $exclude): string
+  public function generatePuml(Size $size, string|Theme $theme, array $include, array $exclude): string
   {
-    if (is_string($size)) {
-      $size = Size::from($size);
-    }
-
-    $diagramClass = match ($size) {
-      Size::Mini => Diagram\Mini::class,
-      Size::Midi => Diagram\Midi::class,
-      Size::Maxi => Diagram\Maxi::class,
+    $diagram = match ($size) {
+      Size::Mini => new Diagram\Mini($this->entityManager),
+      Size::Midi => new Diagram\Midi($this->entityManager),
+      Size::Maxi => new Diagram\Maxi($this->entityManager),
     };
-    $diagram = new $diagramClass($this->entityManager);
     if ($theme instanceof Theme) {
       $theme = $theme->value;
     }
