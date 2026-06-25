@@ -9,7 +9,7 @@ namespace Jawira\EntityDraw\Uml;
  */
 class Raw implements ComponentInterface
 {
-  public function __construct(private string $raw)
+  public function __construct(private readonly string $raw)
   {
   }
 

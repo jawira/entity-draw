@@ -31,7 +31,7 @@ class Relation implements ComponentInterface
    */
   private const MANY_TO_MANY = 8;
 
-  public function __construct(private ClassMetadata $entity, private array|ArrayAccess $associationMapping)
+  public function __construct(private readonly ClassMetadata $entity, private array|ArrayAccess $associationMapping)
   {
   }
 
@@ -42,17 +42,11 @@ class Relation implements ComponentInterface
    */
   private function getOwningSideCardinality(): string
   {
-    switch ($this->associationMapping['type']) {
-      case self::ONE_TO_ONE:
-        $cardinality = '1';
-        break;
-      case self::MANY_TO_ONE:
-      case self::MANY_TO_MANY:
-        $cardinality = '*';
-        break;
-      default:
-        throw new EntityDrawException('Unknown relation type');
-    }
+    $cardinality = match ($this->associationMapping['type']) {
+        self::ONE_TO_ONE => '1',
+        self::MANY_TO_ONE, self::MANY_TO_MANY => '*',
+        default => throw new EntityDrawException('Unknown relation type'),
+    };
 
     return $cardinality;
   }
@@ -64,17 +58,11 @@ class Relation implements ComponentInterface
    */
   private function getInverseSideCardinality(): string
   {
-    switch ($this->associationMapping['type']) {
-      case self::ONE_TO_ONE:
-      case self::MANY_TO_ONE:
-        $cardinality = '1';
-        break;
-      case self::MANY_TO_MANY:
-        $cardinality = '*';
-        break;
-      default:
-        throw new EntityDrawException('Unknown relation type');
-    }
+    $cardinality = match ($this->associationMapping['type']) {
+        self::ONE_TO_ONE, self::MANY_TO_ONE => '1',
+        self::MANY_TO_MANY => '*',
+        default => throw new EntityDrawException('Unknown relation type'),
+    };
 
     return $cardinality;
   }

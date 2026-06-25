@@ -34,10 +34,10 @@
         <file name="src/Uml/Property.php"/>
       </errorLevel>
     </InvalidAttribute>
-    <UndefinedClass>
+    <DeprecatedMethod>
       <errorLevel type="suppress">
-        <file name="src/Uml/Property.php"/>
+        <file name="src/Uml/Entity.php"/>
       </errorLevel>
-    </UndefinedClass>
+    </DeprecatedMethod>
   </issueHandlers>
 </psalm>
