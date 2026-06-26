@@ -1,7 +1,10 @@
 # jawira/entity-draw
 
-**This library generates class diagrams from your Doctrine ORM entities.<br>
-It is designed for use with [jawira/doctrine-diagram-bundle](https://packagist.org/packages/jawira/doctrine-diagram-bundle).**
+**📐 This library generates class diagrams from your Doctrine ORM entities.**
+
+**⚠️ It is primarily intended to be consumed as a dependency by the
+[jawira/doctrine-diagram-bundle](https://github.com/jawira/doctrine-diagram-bundle)
+project.**
 
 [![Packagist Version](https://img.shields.io/packagist/v/jawira/entity-draw)][packagist]
 [![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/jawira/entity-draw/php)][packagist]

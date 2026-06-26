@@ -3,11 +3,14 @@ Jawira Portugal <dev@tugal.be>
 :icons: font
 :toc:
 
-@todo This is the preamble.
+📐 This library generates class diagrams from your Doctrine ORM entities.
+
+⚠️ It is primarily intended to be consumed as a dependency by the https://github.com/jawira/doctrine-diagram-bundle[jawira/doctrine-diagram-bundle] project.
 
 == Usage
 
-In order to use entity-draw you have to instantiate `\Jawira\EntityDraw\EntityDraw`, and call `generatePuml` method with required parameters. With this method you will generate a UML class diagram from you DoctrineORM entities.
+In order to use entity-draw you have to instantiate `\Jawira\EntityDraw\EntityDraw`, and call `generatePuml` method with required parameters.
+With this method you will generate a UML class diagram from you DoctrineORM entities.
 
 == Diagram sizes
 
@@ -33,7 +36,23 @@ include::Person.php[tag=person]
 
 In the previous code snipped, `$name` will be described in UML diagram, while `$age` will not be shown.
 
+=== Maxi size
+
+This size will display the same info as midi size, but it will add class' methods.
+
 == Themes
 
 Theme functionality is provided by PlantUML, entity-draw provide a list of themes, these are provided by `\Jawira\DoctrineDiagramContracts\Theme` enum.
 However, because the list of themes could be out of date you can also define your own themes as _strings_.
+
+== Filters
+
+Two filters can be used to limit the classes appearing the diagram, the include and exclude filter.
+
+With include filter you can add classes to the diagram.
+When this filter is not used all the classes are displayed.
+
+The exclude filter will remove classes from the diagram.
+When the filter is not used all the classes resulting from the include filter are displayed.
+
+You can also use `?` and `*` wildcards in include and exclude filters.

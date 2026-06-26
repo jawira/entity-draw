@@ -9,6 +9,8 @@ interface DiagramInterface
   public function __construct(EntityManagerInterface $entityManager);
 
   /**
+   * Generate a class diagram.
+   *
    * @param string[] $include
    * @param string[] $exclude
    */
