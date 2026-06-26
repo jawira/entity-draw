@@ -7,6 +7,9 @@ use Jawira\DoctrineDiagramContracts\DiagramGeneratorInterface;
 use Jawira\DoctrineDiagramContracts\Size;
 use Jawira\DoctrineDiagramContracts\Theme;
 
+/**
+ * This is the only entrypoint to use this library.
+ */
 class EntityDraw implements DiagramGeneratorInterface
 {
   public function __construct(private readonly EntityManagerInterface $entityManager)

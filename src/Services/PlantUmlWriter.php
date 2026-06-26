@@ -13,6 +13,9 @@ use function array_filter;
 use function array_map;
 use function is_string;
 
+/**
+ * Contains all the logic to write a diagram in PlantUML format.
+ */
 class PlantUmlWriter
 {
   private readonly Toolbox $toolbox;
@@ -25,6 +28,8 @@ class PlantUmlWriter
   }
 
   /**
+   * Generate the header of PlantUML diagram.
+   *
    * @see https://forum.plantuml.net/1139/please-support-php-namespace-separator
    * @return \Jawira\EntityDraw\Uml\Raw[]
    */
@@ -43,6 +48,8 @@ class PlantUmlWriter
   }
 
   /**
+   * Generate the footer of a diagram.
+   *
    * @return \Jawira\EntityDraw\Uml\Raw[]
    */
   public function generateFooter(): array
@@ -51,6 +58,8 @@ class PlantUmlWriter
   }
 
   /**
+   * Extract all classes to be used in the diagram.
+   *
    * @param string[] $include
    * @param string[] $exclude
    * @return \Jawira\EntityDraw\Uml\Entity[]
@@ -66,6 +75,8 @@ class PlantUmlWriter
   }
 
   /**
+   * Generate inheritance relationships.
+   *
    * @param string[] $include
    * @param string[] $exclude
    * @return Inheritance[]
@@ -91,6 +102,8 @@ class PlantUmlWriter
   }
 
   /**
+   * Generate relationships among classes.
+   *
    * @param string[] $include
    * @param string[] $exclude
    * @return \Jawira\EntityDraw\Uml\Relation[]

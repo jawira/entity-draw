@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 class ClassFilter
 {
   /**
+   * Tells if an entity of class {@see \Doctrine\ORM\Mapping\ClassMetadata} must be removed from the class diagram.
+   *
    * @param string[] $include
    * @param string[] $exclude
    */
