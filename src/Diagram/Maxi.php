@@ -18,16 +18,16 @@ class Maxi implements DiagramInterface
   }
 
   #[\Override]
-  public function generateDiagram(string $theme, array $exclude): string
+  public function generateDiagram(string $theme, array $include, array $exclude): string
   {
     $header = $this->plantUmlWriter->generateHeader($theme);
-    $entities = $this->plantUmlWriter->generateEntities($exclude);
+    $entities = $this->plantUmlWriter->generateEntities($include, $exclude);
     foreach ($entities as $entity) {
       $entity->generateProperties();
       $entity->generateMethods();
     }
-    $inheritance = $this->plantUmlWriter->generateInheritance($exclude);
-    $relations = $this->plantUmlWriter->generateRelations($exclude);
+    $inheritance = $this->plantUmlWriter->generateInheritance($include, $exclude);
+    $relations = $this->plantUmlWriter->generateRelations($include, $exclude);
     $footer = $this->plantUmlWriter->generateFooter();
 
     return $this->toolbox->reduceComponents([...$header, ...$entities, ...$inheritance, ...$relations, ...$footer]);

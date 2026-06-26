@@ -18,12 +18,12 @@ class Mini implements DiagramInterface
   }
 
   #[\Override]
-  public function generateDiagram(string $theme, array $exclude): string
+  public function generateDiagram(string $theme, array $include, array $exclude): string
   {
     $header = $this->plantUmlWriter->generateHeader($theme);
-    $entities = $this->plantUmlWriter->generateEntities($exclude);
-    $inheritance = $this->plantUmlWriter->generateInheritance($exclude);
-    $relations = $this->plantUmlWriter->generateRelations($exclude);
+    $entities = $this->plantUmlWriter->generateEntities($include, $exclude);
+    $inheritance = $this->plantUmlWriter->generateInheritance($include, $exclude);
+    $relations = $this->plantUmlWriter->generateRelations($include, $exclude);
     $footer = $this->plantUmlWriter->generateFooter();
 
     return $this->toolbox->reduceComponents([...$header, ...$entities, ...$inheritance, ...$relations, ...$footer]);

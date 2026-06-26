@@ -4,9 +4,10 @@
   <property name="composer.flags" value="--ansi"/>
   <property name="bin.cs" value="vendor/bin/php-cs-fixer"/>
   <property name="bin.psalm" value="vendor/bin/psalm"/>
+  <property name="bin.phpunit" value="vendor/bin/phpunit"/>
 
   <target name="setup" depends="composer:install"/>
-  <target name="qa" depends="composer:validate,psalm:run,cs:check"/>
+  <target name="qa" depends="composer:validate,psalm:run,cs:check,phpunit:check"/>
 
   <target name="composer:install" description="Installs the project dependencies">
     <exec executable="composer" checkreturn="true" passthru="true">
@@ -52,6 +53,13 @@
       <arg line="--ansi --no-interaction --allow-risky=yes --verbose"/>
       <arg value="check"/>
       <arg file="src"/>
+    </exec>
+  </target>
+
+  <target name="phpunit:check" description="Run PHPUnit tests">
+    <exec executable="${bin.phpunit}" passthru="true" checkreturn="true">
+      <env key="XDEBUG_MODE" value="coverage"/>
+      <arg value="--testdox"/>
     </exec>
   </target>
 

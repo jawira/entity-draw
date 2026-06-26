@@ -4,18 +4,24 @@ namespace Jawira\EntityDraw\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Jawira\EntityDraw\EntityDrawException;
 use Jawira\EntityDraw\Uml\Entity;
 use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Inheritance;
 use Jawira\EntityDraw\Uml\Relation;
+use function array_filter;
+use function array_map;
+use function is_string;
 
 class PlantUmlWriter
 {
   private readonly Toolbox $toolbox;
+  private ClassFilter $classFilter;
 
   public function __construct(private readonly EntityManagerInterface $entityManager)
   {
     $this->toolbox = new Toolbox();
+    $this->classFilter = new ClassFilter();
   }
 
   /**
@@ -45,34 +51,36 @@ class PlantUmlWriter
   }
 
   /**
+   * @param string[] $include
    * @param string[] $exclude
    * @return \Jawira\EntityDraw\Uml\Entity[]
    */
-  public function generateEntities(array $exclude): array
+  public function generateEntities(array $include, array $exclude): array
   {
     $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
-    $filter = (fn(ClassMetadata $metadata): bool => !\in_array($metadata->getName(), $exclude, true));
-    $metadata = \array_filter($metadata, $filter);
-    $entities = \array_map(fn(ClassMetadata $metadata): Entity => new Entity($metadata), $metadata);
+    $filter = (fn(ClassMetadata $metadata): bool => !$this->classFilter->skipEntity($metadata, $include, $exclude));
+    $metadata = array_filter($metadata, $filter);
+    $entities = array_map(fn(ClassMetadata $metadata): Entity => new Entity($metadata), $metadata);
 
     return $entities;
   }
 
   /**
+   * @param string[] $include
    * @param string[] $exclude
    * @return Inheritance[]
    */
-  public function generateInheritance(array $exclude): array
+  public function generateInheritance(array $include, array $exclude): array
   {
     $entities = $this->entityManager->getMetadataFactory()->getAllMetadata();
 
     $inheritance = [];
     foreach ($entities as $entity) {
-      if (\in_array($entity->getName(), $exclude, true)) {
+      if ($this->classFilter->skipEntity($entity, $include, $exclude)) {
         continue;
       }
       foreach ($entity->subClasses as $subClass) {
-        if (\in_array($subClass, $exclude, true)) {
+        if ($this->classFilter->skipClassName($subClass, $include, $exclude)) {
           continue;
         }
         $inheritance[] = new Inheritance($entity, $subClass);
@@ -83,19 +91,21 @@ class PlantUmlWriter
   }
 
   /**
+   * @param string[] $include
    * @param string[] $exclude
    * @return \Jawira\EntityDraw\Uml\Relation[]
    */
-  public function generateRelations(array $exclude): array
+  public function generateRelations(array $include, array $exclude): array
   {
     $relations = [];
     $entities = $this->entityManager->getMetadataFactory()->getAllMetadata();
     foreach ($entities as $entity) {
-      if (\in_array($entity->getName(), $exclude, true)) {
+      if ($this->classFilter->skipEntity($entity, $include, $exclude)) {
         continue;
       }
       foreach ($entity->getAssociationMappings() as $associationMapping) {
-        if (\in_array($associationMapping['targetEntity'], $exclude, true)) {
+        is_string($associationMapping['targetEntity']) or throw new EntityDrawException('targetEntity must be a string value');
+        if ($this->classFilter->skipClassName($associationMapping['targetEntity'], $include, $exclude)) {
           continue;
         }
         if ($this->toolbox->isInverseSide($associationMapping)) {

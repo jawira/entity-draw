@@ -16,7 +16,7 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: xdebug
           # Using phar tools allows to avoid errors while installing lowest/latest dependencies
-          tools: phing:3, php-cs-fixer:v3.95.11, psalm:6.16.1
+          tools: phing:3, php-cs-fixer:v3.95.11, psalm:6.16.1, phpunit:11.5.55
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
       - name: Update Composer dependencies
         env:
           COMPOSER_PREFER_LOWEST: ${{ matrix.lowest }}
-        run: composer update ${{ matrix.options }}
+        run: composer update
 
       - name: Install Composer dependencies and validate
         run: >
@@ -37,8 +37,11 @@ jobs:
           -Dbin.psalm=psalm psalm:run
 
       - name: php-cs-fixer
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: yes
         run: >
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
           -Dbin.cs=php-cs-fixer cs:check
+
+      - name: phpunit
+        run: >
+          phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
+          -Dbin.phpunit=phpunit phpunit:check
