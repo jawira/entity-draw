@@ -25,6 +25,6 @@ class EntityDraw implements DiagramGeneratorInterface
       $theme = $theme->value;
     }
 
-    return $diagram->generateDiagram($theme, $exclude);
+    return $diagram->generateDiagram($theme, $include, $exclude);
   }
 }

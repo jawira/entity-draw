@@ -1,9 +1,12 @@
 <?php
 
 use Jawira\EntityDraw\Services\VarNormalizer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class NormalizerTest extends TestCase
+#[CoversClass(VarNormalizer::class)]
+class VarNormalizerTest extends TestCase
 {
   private VarNormalizer $varNormalizer;
 
@@ -12,10 +15,7 @@ class NormalizerTest extends TestCase
     $this->varNormalizer = new VarNormalizer();
   }
 
-  /**
-   * @covers \Jawira\EntityDraw\Services\VarNormalizer::escapeParenthesis
-   * @dataProvider escapeParenthesisProvider
-   */
+  #[DataProvider('escapeParenthesisProvider')]
   public function testEscapeParenthesis($value, $expected): void
   {
     $actual = $this->varNormalizer->escapeParenthesis($value);
@@ -32,10 +32,7 @@ class NormalizerTest extends TestCase
     ];
   }
 
-  /**
-   * @covers       \Jawira\EntityDraw\Services\VarNormalizer::removeNewLines
-   * @dataProvider removeNewLineProvider
-   */
+  #[DataProvider('removeNewLineProvider')]
   public function testRemoveNewLine($value, $expected): void
   {
     $actual = $this->varNormalizer->removeNewLines($value);
@@ -52,10 +49,7 @@ class NormalizerTest extends TestCase
     ];
   }
 
-  /**
-   * @covers       \Jawira\EntityDraw\Services\VarNormalizer::shortArraySyntax
-   * @dataProvider shortArraySyntaxProvider
-   */
+  #[DataProvider('shortArraySyntaxProvider')]
   public function testShortArraySyntax($value, $expected): void
   {
 
@@ -74,10 +68,7 @@ class NormalizerTest extends TestCase
     ];
   }
 
-  /**
-   * @covers       \Jawira\EntityDraw\Services\VarNormalizer::lowercaseNull
-   * @dataProvider lowercaseNullProvider
-   */
+  #[DataProvider('lowercaseNullProvider')]
   public function testLowercaseNull($value, $expected): void
   {
     $actual = $this->varNormalizer->lowercaseNull($value);
