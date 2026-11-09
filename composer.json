@@ -17,7 +17,7 @@
     "friendsofphp/php-cs-fixer": "^v3.95",
     "jawira/skeleton": "^v2.27",
     "phpunit/phpunit": "^11.5",
-    "vimeo/psalm": "^v6.16"
+    "vimeo/psalm": "^v6.16 || ^7.0"
   },
   "autoload": {
     "psr-4": {
