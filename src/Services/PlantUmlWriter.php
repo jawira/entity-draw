@@ -24,7 +24,7 @@ use function is_string;
 class PlantUmlWriter
 {
   private readonly Toolbox $toolbox;
-  private ClassFilter $classFilter;
+  private readonly ClassFilter $classFilter;
 
   public function __construct(private readonly EntityManagerInterface $entityManager)
   {
