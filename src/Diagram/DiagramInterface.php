@@ -4,6 +4,11 @@ namespace Jawira\EntityDraw\Diagram;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
+ */
 interface DiagramInterface
 {
   public function __construct(EntityManagerInterface $entityManager);

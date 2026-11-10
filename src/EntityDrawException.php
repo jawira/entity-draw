@@ -2,6 +2,11 @@
 
 namespace Jawira\EntityDraw;
 
-class EntityDrawException extends \Exception
-{
-}
+use Exception;
+
+/**
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
+ */
+class EntityDrawException extends Exception {}

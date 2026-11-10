@@ -6,15 +6,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Jawira\EntityDraw\EntityDrawException;
 use Jawira\EntityDraw\Uml\Entity;
-use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Inheritance;
+use Jawira\EntityDraw\Uml\Raw;
 use Jawira\EntityDraw\Uml\Relation;
+
 use function array_filter;
 use function array_map;
 use function is_string;
 
 /**
  * Contains all the logic to write a diagram in PlantUML format.
+ *
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
  */
 class PlantUmlWriter
 {
@@ -31,26 +36,27 @@ class PlantUmlWriter
    * Generate the header of PlantUML diagram.
    *
    * @see https://forum.plantuml.net/1139/please-support-php-namespace-separator
-   * @return \Jawira\EntityDraw\Uml\Raw[]
+   *
+   * @return Raw[]
    */
   public function generateHeader(string $theme): array
   {
     return [
       new Raw('@startuml'),
-      new Raw('set separator \\ '),
+      new Raw('set separator \ '),
       new Raw('!pragma useIntermediatePackages false'),
       new Raw('skinparam linetype ortho'),
       new Raw('skinparam MinClassWidth 140'),
       new Raw('hide circle'),
       new Raw('hide empty members'),
-      new Raw("!theme $theme"),
+      new Raw("!theme {$theme}"),
     ];
   }
 
   /**
    * Generate the footer of a diagram.
    *
-   * @return \Jawira\EntityDraw\Uml\Raw[]
+   * @return Raw[]
    */
   public function generateFooter(): array
   {
@@ -62,14 +68,15 @@ class PlantUmlWriter
    *
    * @param string[] $include
    * @param string[] $exclude
-   * @return \Jawira\EntityDraw\Uml\Entity[]
+   *
+   * @return Entity[]
    */
   public function generateEntities(array $include, array $exclude): array
   {
     $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
-    $filter = (fn(ClassMetadata $metadata): bool => !$this->classFilter->skipEntity($metadata, $include, $exclude));
+    $filter = (fn (ClassMetadata $metadata): bool => !$this->classFilter->skipEntity($metadata, $include, $exclude));
     $metadata = array_filter($metadata, $filter);
-    $entities = array_map(fn(ClassMetadata $metadata): Entity => new Entity($metadata), $metadata);
+    $entities = array_map(fn (ClassMetadata $metadata): Entity => new Entity($metadata), $metadata);
 
     return $entities;
   }
@@ -79,6 +86,7 @@ class PlantUmlWriter
    *
    * @param string[] $include
    * @param string[] $exclude
+   *
    * @return Inheritance[]
    */
   public function generateInheritance(array $include, array $exclude): array
@@ -106,7 +114,8 @@ class PlantUmlWriter
    *
    * @param string[] $include
    * @param string[] $exclude
-   * @return \Jawira\EntityDraw\Uml\Relation[]
+   *
+   * @return Relation[]
    */
   public function generateRelations(array $include, array $exclude): array
   {

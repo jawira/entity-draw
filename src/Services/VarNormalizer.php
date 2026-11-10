@@ -4,10 +4,16 @@ namespace Jawira\EntityDraw\Services;
 
 use function str_ends_with;
 use function str_starts_with;
+use function strtr;
+use function substr_replace;
 
 /**
  * This method will normalize and escape special PlantUML characters to display
  * diagrams properly.
+ *
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
  */
 class VarNormalizer
 {
@@ -16,13 +22,12 @@ class VarNormalizer
    */
   public function lowercaseNull(string $var): string
   {
-    if ($var === 'NULL') {
+    if ('NULL' === $var) {
       return 'null';
     }
 
     return $var;
   }
-
 
   /**
    * Replaces "array ()" with "[]".
@@ -59,5 +64,4 @@ class VarNormalizer
   {
     return strtr($varExport, ['(' => '<U+0028>', ')' => '<U+0029>']);
   }
-
 }

@@ -63,4 +63,14 @@
     </exec>
   </target>
 
-</project>
+<target name="cs:fix" description="Fixes code style in src dir.">
+    <exec executable="vendor/bin/php-cs-fixer" passthru="true" checkreturn="true">
+      <arg line="--ansi --no-interaction --verbose"/>
+      <arg value="fix"/>
+    </exec>
+  </target><target name="cs:check" description="Checks if configured files/directories comply with configured rules.">
+    <exec executable="vendor/bin/php-cs-fixer" passthru="true" checkreturn="true">
+      <arg line="--ansi --no-interaction --verbose"/>
+      <arg value="check"/>
+    </exec>
+  </target></project>

@@ -7,7 +7,7 @@ jobs:
         php: [ '8.2','8.3','8.4','8.5' ]
         lowest: [ '0', '1' ]
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
 
       - name: Setup PHP
@@ -29,7 +29,7 @@ jobs:
       - name: Install Composer dependencies and validate
         run: >
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
-          -Dcomposer.flags="--no-dev" composer:install composer:validate
+          composer:install composer:validate
 
       - name: Psalm
         run: >

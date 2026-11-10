@@ -5,7 +5,13 @@ namespace Jawira\EntityDraw\Diagram;
 use Doctrine\ORM\EntityManagerInterface;
 use Jawira\EntityDraw\Services\PlantUmlWriter;
 use Jawira\EntityDraw\Services\Toolbox;
+use Override;
 
+/**
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
+ */
 class Mini implements DiagramInterface
 {
   private readonly PlantUmlWriter $plantUmlWriter;
@@ -17,7 +23,7 @@ class Mini implements DiagramInterface
     $this->plantUmlWriter = new PlantUmlWriter($entityManager);
   }
 
-  #[\Override]
+  #[Override]
   public function generateDiagram(string $theme, array $include, array $exclude): string
   {
     $header = $this->plantUmlWriter->generateHeader($theme);

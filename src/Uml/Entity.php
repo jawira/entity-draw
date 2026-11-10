@@ -4,16 +4,22 @@ namespace Jawira\EntityDraw\Uml;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Jawira\EntityDraw\Services\Toolbox;
+use ReflectionProperty;
 
 /**
  * This represents a UML class, but since "class" is a reserved word in PHP it
  * was renamed into "Entity".
+ *
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
  */
 class Entity implements ComponentInterface
 {
-  /** @var \Jawira\EntityDraw\Uml\Property[] */
+  /** @var Property[] */
   private array $properties = [];
-  /** @var \Jawira\EntityDraw\Uml\Method[] */
+
+  /** @var Method[] */
   private array $methods = [];
   private readonly Toolbox $toolbox;
   private Raw $header;
@@ -25,23 +31,17 @@ class Entity implements ComponentInterface
     $this->generateHeaderAndFooter();
   }
 
-
-  private function generateHeaderAndFooter(): void
+  public function __toString(): string
   {
-    $name = $this->metadata->getName();
-    $header = "class $name {";
-    $isAbstract = $this->metadata->getReflectionClass()->isAbstract();
-    if ($isAbstract) {
-      $header = "abstract $header";
-    }
-    $this->header = new Raw($header);
-    $this->footer = new Raw('}');
+    $components = [$this->header, ...$this->properties, ...$this->methods, $this->footer];
+
+    return $this->toolbox->reduceComponents($components);
   }
 
   public function generateProperties(): void
   {
     foreach ($this->metadata->getReflectionProperties() as $property) {
-      if (!$property instanceof \ReflectionProperty) {
+      if (!$property instanceof ReflectionProperty) {
         continue;
       }
       if ($property->getDeclaringClass()->getName() !== $this->metadata->getName()) {
@@ -62,10 +62,15 @@ class Entity implements ComponentInterface
     }
   }
 
-  public function __toString(): string
+  private function generateHeaderAndFooter(): void
   {
-    $components = [$this->header, ...$this->properties, ...$this->methods, $this->footer];
-
-    return $this->toolbox->reduceComponents($components);
+    $name = $this->metadata->getName();
+    $header = "class {$name} {";
+    $isAbstract = $this->metadata->getReflectionClass()->isAbstract();
+    if ($isAbstract) {
+      $header = "abstract {$header}";
+    }
+    $this->header = new Raw($header);
+    $this->footer = new Raw('}');
   }
 }

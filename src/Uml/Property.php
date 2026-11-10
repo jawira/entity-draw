@@ -2,12 +2,25 @@
 
 namespace Jawira\EntityDraw\Uml;
 
+use Deprecated;
 use Jawira\EntityDraw\Services\Toolbox;
 use Jawira\EntityDraw\Services\VarNormalizer;
+use ReflectionIntersectionType;
+use ReflectionNamedType;
+use ReflectionProperty;
+use ReflectionUnionType;
+
+use function count;
+use function is_string;
 use function str_contains;
 use function strval;
 use function var_export;
 
+/**
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
+ */
 class Property implements ComponentInterface
 {
   private readonly VarNormalizer $varNormalizer;
@@ -15,11 +28,30 @@ class Property implements ComponentInterface
   /**
    * @see https://stackoverflow.com/questions/41870513/how-to-show-attribute-as-readonly-in-uml
    */
-  public function __construct(private readonly \ReflectionProperty $property)
+  public function __construct(private readonly ReflectionProperty $property)
   {
     $this->varNormalizer = new VarNormalizer();
   }
 
+  public function __toString(): string
+  {
+    $visibility = $this->generateVisibility();
+    $name = $this->generateName();
+    $type = $this->generateType();
+    $defaultValue = $this->generateDefaultValue();
+    $readOnly = $this->generateReadOnly();
+
+    return "{$visibility} {$name}{$type}{$defaultValue}{$readOnly}".PHP_EOL;
+  }
+
+  public function generateType(): string
+  {
+    /** @var null|ReflectionIntersectionType|ReflectionNamedType|ReflectionUnionType $propertyType */
+    $propertyType = $this->property->getType();
+    $type = strval($propertyType);
+
+    return empty($type) ? '' : " : {$type}";
+  }
 
   private function generateVisibility(): string
   {
@@ -35,6 +67,7 @@ class Property implements ComponentInterface
     if (!$this->property->hasDefaultValue()) {
       return '';
     }
+
     /** @var mixed $value */
     $value = $this->property->getDefaultValue();
 
@@ -44,16 +77,7 @@ class Property implements ComponentInterface
     $varExport = $this->varNormalizer->removeNewLines($varExport);
     $varExport = $this->varNormalizer->escapeParenthesis($varExport);
 
-    return ' = ' . $varExport;
-  }
-
-  public function generateType(): string
-  {
-    /** @var \ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType|null $propertyType */
-    $propertyType = $this->property->getType();
-    $type = strval($propertyType);
-
-    return empty($type) ? '' : " : $type";
+    return ' = '.$varExport;
   }
 
   /**
@@ -65,7 +89,6 @@ class Property implements ComponentInterface
 
     return $isReadOnly ? ' {readonly}' : '';
   }
-
 
   /**
    * Generate property name string.
@@ -91,20 +114,9 @@ class Property implements ComponentInterface
 
     // As attribute
     /** @var class-string $classString */
-    $deprecatedClass = \Deprecated::class;
+    $deprecatedClass = Deprecated::class;
     $attributes = $this->property->getAttributes($deprecatedClass);
 
     return count($attributes) > 0;
-  }
-
-  public function __toString(): string
-  {
-    $visibility = $this->generateVisibility();
-    $name = $this->generateName();
-    $type = $this->generateType();
-    $defaultValue = $this->generateDefaultValue();
-    $readOnly = $this->generateReadOnly();
-
-    return "$visibility $name$type$defaultValue$readOnly" . PHP_EOL;
   }
 }
