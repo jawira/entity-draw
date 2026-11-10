@@ -1,16 +1,35 @@
 <?php declare(strict_types=1);
 
-$rules = [
-  'declare_strict_types' => true,
-  'heredoc_to_nowdoc' => true,
-  'no_binary_string' => true,
-  'no_trailing_whitespace' => true,
-  'no_unused_imports' => true,
-  'simple_to_complex_string_variable' => true,
-  'simplified_if_return' => true,
-  'single_blank_line_at_eof' => true,
-  'single_quote' => true,
-  'switch_case_space' => true,
-];
+use Jawira\AnnotationUpdater\AnnotationUpdater;
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
 
-return (new \PhpCsFixer\Config())->setRules($rules)->setHideProgress(true)->setIndent('  ');
+$year = date('Y');
+$rules = [
+  '@PSR12' => true,
+  '@PHP8x2Migration' => true, // Update this according to your PHP version
+  '@PhpCsFixer' => true,
+  'return_assignment' => false,
+  'declare_strict_types' => true,
+  'linebreak_after_opening_tag' => false,
+  'blank_line_after_opening_tag' => false,
+  'native_function_invocation' => ['include' => ['@all']],
+  'global_namespace_import' => ['import_classes' => true, 'import_constants' => true, 'import_functions' => true],
+  AnnotationUpdater::NAME => [
+    AnnotationUpdater::ANNOTATIONS => [
+      ['tag' => 'author', 'value' => 'Jawira Portugal <dev@tugal.be>', 'mode' => 'preserve'],
+      ['tag' => 'copyright', 'value' => "© 2024-$year Jawira Portugal", 'mode' => 'replace'],
+      ['tag' => 'throws', 'mode' => 'remove'],
+    ],
+  ],
+];
+$finder = Finder::create()->in([__DIR__ . '/src', __DIR__ . '/tests'])->name('*.php');
+
+
+return (new Config())
+  ->setHideProgress(true)
+  ->setRiskyAllowed(true)
+  ->setIndent('  ')
+  ->setFinder($finder)
+  ->registerCustomFixers([new AnnotationUpdater()])
+  ->setRules($rules);

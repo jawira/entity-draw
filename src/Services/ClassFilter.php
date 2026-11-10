@@ -4,13 +4,21 @@ namespace Jawira\EntityDraw\Services;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 
+use function boolval;
+use function count;
+use function fnmatch;
+
 /**
  * Tells if a class should appear in the diagram or not.
+ *
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
  */
 class ClassFilter
 {
   /**
-   * Tells if an entity of class {@see \Doctrine\ORM\Mapping\ClassMetadata} must be removed from the class diagram.
+   * Tells if an entity of class {@see ClassMetadata} must be removed from the class diagram.
    *
    * @param string[] $include
    * @param string[] $exclude

@@ -1,4 +1,4 @@
-= AsciiDoc Article Title
+= Guide
 Jawira Portugal <dev@tugal.be>
 :icons: font
 :toc:

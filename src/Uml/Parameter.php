@@ -3,12 +3,26 @@
 namespace Jawira\EntityDraw\Uml;
 
 use ReflectionParameter;
-use function strval;
 
+use function strval;
+use function var_export;
+
+/**
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
+ */
 class Parameter implements ComponentInterface
 {
-  public function __construct(private readonly ReflectionParameter $parameter)
+  public function __construct(private readonly ReflectionParameter $parameter) {}
+
+  public function __toString(): string
   {
+    $type = $this->generateType();
+    $name = $this->generateName();
+    $defaultValue = $this->generateDefaultValue();
+
+    return "{$name}{$type}{$defaultValue}";
   }
 
   public function generateType(): string
@@ -17,7 +31,7 @@ class Parameter implements ComponentInterface
 
     $type = strval($parameterType);
 
-    return empty($type) ? '' : " : $type";
+    return empty($type) ? '' : " : {$type}";
   }
 
   public function generateName(): string
@@ -39,19 +53,10 @@ class Parameter implements ComponentInterface
     if (!$this->parameter->isOptional() || !$this->parameter->isDefaultValueAvailable()) {
       return '';
     }
+
     /** @var mixed $value */
     $value = $this->parameter->getDefaultValue();
 
-    return ' = ' . var_export($value, true);
-
-  }
-
-  public function __toString(): string
-  {
-    $type = $this->generateType();
-    $name = $this->generateName();
-    $defaultValue = $this->generateDefaultValue();
-
-    return "$name$type$defaultValue";
+    return ' = '.var_export($value, true);
   }
 }

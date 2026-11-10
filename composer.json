@@ -14,10 +14,11 @@
     "jawira/doctrine-diagram-contracts": "^v2.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^v3.95",
-    "jawira/skeleton": "^v2.27",
-    "phpunit/phpunit": "^11.5",
-    "vimeo/psalm": "^v6.16 || ^7.0"
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "jawira/annotation-updater": "^1.1",
+    "jawira/skeleton": "^2.33",
+    "phpunit/phpunit": "^11.5.57",
+    "vimeo/psalm": "^6.20.10"
   },
   "autoload": {
     "psr-4": {

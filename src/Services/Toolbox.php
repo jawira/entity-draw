@@ -4,22 +4,29 @@ namespace Jawira\EntityDraw\Services;
 
 use ArrayAccess;
 use Jawira\EntityDraw\Uml\ComponentInterface;
+
 use function array_reduce;
 use function strval;
 
+/**
+ * @author Jawira Portugal
+ * @copyright © 2024-2026 Jawira Portugal
+ * @license MIT
+ */
 class Toolbox
 {
   public const PRIVATE = '-';
   public const PROTECTED = '#';
   public const PUBLIC = '+';
+
   /**
    * Reduce an array of {@see ComponentInterface} objects to array.
    *
-   * @param \Jawira\EntityDraw\Uml\ComponentInterface[] $components
+   * @param ComponentInterface[] $components
    */
   public function reduceComponents(array $components): string
   {
-    $reducer = (fn(string $carry, ComponentInterface $component): string => $carry . strval($component));
+    $reducer = (fn (string $carry, ComponentInterface $component): string => $carry.strval($component));
 
     return array_reduce($components, $reducer, '');
   }
@@ -29,6 +36,6 @@ class Toolbox
    */
   public function isInverseSide(array|ArrayAccess $associationMapping): bool
   {
-    return isset($associationMapping['mappedBy']) && $associationMapping['mappedBy'] !== '';
+    return isset($associationMapping['mappedBy']) && '' !== $associationMapping['mappedBy'];
   }
 }
