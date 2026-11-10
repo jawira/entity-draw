@@ -16,7 +16,7 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: xdebug
           # Using phar tools allows to avoid errors while installing lowest/latest dependencies
-          tools: phing:3, php-cs-fixer:v3.95.11, psalm:6.16.1, phpunit:11.5.55
+          tools: phing:3
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,14 +34,14 @@ jobs:
       - name: Psalm
         run: >
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
-          -Dbin.psalm=psalm psalm:run
+          psalm:check
 
       - name: php-cs-fixer
         run: >
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
-          -Dbin.cs=php-cs-fixer cs:check
+          cs:check
 
       - name: phpunit
         run: >
           phing -longtargets -logger \\Phing\\Listener\\AnsiColorLogger
-          -Dbin.phpunit=phpunit phpunit:check
+          phpunit:check

@@ -2,12 +2,9 @@
 <project name="jawira/entity-draw" description="This library generates class diagrams from your Doctrine ORM entities." default="help" phingVersion="3">
 
   <property name="composer.flags" value="--ansi"/>
-  <property name="bin.cs" value="vendor/bin/php-cs-fixer"/>
-  <property name="bin.psalm" value="vendor/bin/psalm"/>
-  <property name="bin.phpunit" value="vendor/bin/phpunit"/>
 
   <target name="setup" depends="composer:install"/>
-  <target name="qa" depends="composer:validate,psalm:run,cs:check,phpunit:check"/>
+  <target name="qa" depends="composer:validate,psalm:check,cs:check,phpunit:check"/>
 
   <target name="composer:install" description="Installs the project dependencies">
     <exec executable="composer" checkreturn="true" passthru="true">
@@ -24,8 +21,8 @@
     </composer>
   </target>
 
-  <target name="psalm:run" description="Check code with Psalm">
-    <exec executable="${bin.psalm}" checkreturn="true" passthru="true">
+  <target name="psalm:check" description="Check code with Psalm">
+    <exec executable="vendor/bin/psalm" checkreturn="true" passthru="true">
       <arg line="--no-cache --long-progress"/>
     </exec>
   </target>
@@ -41,7 +38,7 @@
   </target>
 
   <target name="cs:fix" description="Fixes code style in src dir.">
-    <exec executable="${bin.cs}" passthru="true" checkreturn="true">
+    <exec executable="vendor/bin/php-cs-fixer" passthru="true" checkreturn="true">
       <arg line="--ansi --no-interaction --allow-risky=yes --verbose"/>
       <arg value="fix"/>
       <arg file="src"/>
@@ -49,7 +46,7 @@
   </target>
 
   <target name="cs:check" description="Checks if configured files/directories comply with configured rules.">
-    <exec executable="${bin.cs}" passthru="true" checkreturn="true">
+    <exec executable="vendor/bin/php-cs-fixer" passthru="true" checkreturn="true">
       <arg line="--ansi --no-interaction --allow-risky=yes --verbose"/>
       <arg value="check"/>
       <arg file="src"/>
@@ -57,7 +54,7 @@
   </target>
 
   <target name="phpunit:check" description="Run PHPUnit tests">
-    <exec executable="${bin.phpunit}" passthru="true" checkreturn="true">
+    <exec executable="vendor/bin/phpunit" passthru="true" checkreturn="true">
       <env key="XDEBUG_MODE" value="coverage"/>
       <arg value="--testdox"/>
     </exec>
