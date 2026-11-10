@@ -18,7 +18,7 @@
     "jawira/annotation-updater": "^1.1",
     "jawira/skeleton": "^2.33",
     "phpunit/phpunit": "^11.5.57",
-    "vimeo/psalm": "^6.20.10 || ^7.0.0"
+    "vimeo/psalm": "^7.0"
   },
   "autoload": {
     "psr-4": {
